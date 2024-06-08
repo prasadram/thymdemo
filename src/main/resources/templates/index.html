@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe</title>
+</head>
+<body>
+<center><h1>Welcome To Employee Management Service</h1></center>
+<br>
+<div>
+    <form th:action="@{/employee}">
+    <table>
+        <tr>
+            <td>Enter Employee Id</td>
+<!--            <td><input type="text" id="recipeid" th:field="${id}"></td>-->
+            <td><input type="text" id="employeeid" th:name="id"></td>
+        </tr>
+        <tr>
+            <!--<td><a href="./employee">Get Recipe Details</a></td>-->
+            <td><input type="submit"></td>
+        </tr>
+    </table>
+    </form>
+</div>
+
+</body>
+</html>

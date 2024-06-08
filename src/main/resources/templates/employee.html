@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe</title>
+    <style>
+<!--    table, th, td {-->
+<!--        border: 1px solid black;-->
+<!--        border-collapse: collapse;-->
+<!--    }-->
+
+    table.center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    input[type=button] {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    </style>
+</head>
+<script>
+    function updateEmployee() {
+        let employeeId = document.getElementById("employeeId").value;
+        let newName = document.getElementById("employeeName").value;
+        let url = "/employee/"+employeeId;
+        let xhr = new XMLHttpRequest();
+        let employeeObj = {
+            'name': newName
+        };
+        let newEmployeeObj = JSON.stringify(employeeObj);
+        console.log(newEmployeeObj);
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json; ');
+        xhr.send(newEmployeeObj);
+
+        xhr.onload = function() {
+         if (xhr.status === 200) {
+            console.log("Employee Updated Successful" + this.responseText);
+            let returnedEmployee = JSON.parse(this.responseText);
+            console.log(returnedEmployee);
+            updateNewEmployeeDom(returnedEmployee);
+         } else if (xhr.status === 404) {
+            console.log("Employee Not Found");
+            updateErrorDom();
+         }
+        }
+
+    }
+    function updateNewEmployeeDom(newEmployee) {
+        let employeeDiv = document.getElementById("updatedEmployeediv");
+        employeeDiv.innerHTML = "<br>Employee New Name:"+newEmployee.name;
+    }
+    function updateErrorDom() {
+        let employeeDiv = document.getElementById("updatedEmployeediv");
+        employeeDiv.innerHTML = "<br>Employee Not Found, Enter valid employee details";
+    }
+</script>
+<body>
+<center><h1>Employee <span th:text="${id}"></span></h1></center>
+<br>
+<div>
+
+    <br><br>
+    <table class="center">
+        <tr>
+            <td>Employee Id:</td>
+            <td><input type="text" id="employeeId" th:value="${employee.id}"></td>
+        </tr>
+        <tr>
+            <td>Employee Name:</td>
+            <td><input type="text" id="employeeName" th:value="${employee.name}"></td>
+        </tr>
+    </table>
+    <table class="center">
+        <tr>
+            <td><input type="button" value="Update" onclick="updateEmployee()"></td>
+        </tr>
+    </table>
+    <div id="updatedEmployeediv">
+
+    </div>
+
+</div>
+</body>
+</html>
